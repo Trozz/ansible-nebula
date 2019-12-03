@@ -1,2 +1,25 @@
 ---
 # defaults file for .
+nebula_version: 1.0.0
+
+pki:
+  ca: /etc/nebula/ca.crt
+  cert: /etc/nebula/host.crt
+  key: /etc/nebula/host.key
+
+listen:
+  host: 0.0.0.0
+  port: 4242
+
+punchy: true
+punch_back: true
+
+outbound:
+  - port: any
+    proto: any
+    host: any
+
+inbound:
+  - port: any
+    proto: icmp
+    host: any

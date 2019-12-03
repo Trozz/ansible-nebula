@@ -1,2 +1,39 @@
 ---
 # tasks file for .
+
+- name: Download release from Github
+  unarchive:
+    src: https://github.com/slackhq/nebula/releases/download/v{{nebula_version}}/nebula-{{ansible_system|lower}}-amd64.tar.gz
+    dest: /bin
+    remote_src: yes
+    mode: 0755
+    creates: /bin/nebula
+
+- name: Create configuration directory
+  file:
+    path: /etc/nebula
+    state: directory
+    mode: '0750'
+
+- name: Deploy configuration template
+  template:
+      dest: /etc/nebula/config.yaml
+      src: templates/config.yaml.j2
+      owner: root
+      group: root
+      mode: 0600
+      backup: yes
+
+- name: Deploy systemd template
+  template:
+      dest: /etc/systemd/system/nebula.service
+      src: templates/nebula.service.j2
+      owner: root
+      group: root
+      mode: 0644
+
+- name: Enable Nebula service
+  service:
+    name: nebula
+    state: restarted
+    enabled: yes

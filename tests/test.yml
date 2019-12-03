@@ -1,5 +1,32 @@
 ---
-- hosts: localhost
+- hosts: all
   remote_user: root
+  vars:
+    static_host_map:
+      - internal_ip: 10.255.0.1
+        public_ip: 123.231.1.2
+        public_port: 4242
+    lighthouse:
+      nodes:
+        - 10.255.0.1
+  pre_tasks:
+    - name: Create Nebula directory
+      file:
+        path: /etc/nebula
+        state: directory
+        mode: '0750'
+    - name: Deploy Nebula certificates
+      copy:
+        src: files/{{item}}
+        dest: /etc/nebula/{{item}}
+        owner: root
+        group: root
+        mode: '0600'
+      with_items:
+        - ca.crt
+        - host.crt
+        - host.key
+      
+
   roles:
-    - .
+    - ansible-nebula
