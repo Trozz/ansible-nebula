@@ -1,13 +1,40 @@
 ---
-# tasks file for .
+- name: Get my public IP
+  community.general.ipify_facts:
 
-- name: Download release from Github
+- name: Download release from Github (x86)
   unarchive:
-    src: https://github.com/slackhq/nebula/releases/download/v{{ nebula_version }}/nebula-{{ ansible_system|lower }}-amd64.tar.gz
+    src: https://github.com/slackhq/nebula/releases/download/v{{ nebula_version }}/nebula-{{ ansible_system|lower }}-{{ ansible_architecture|lower }}.tar.gz
     dest: /bin
     remote_src: yes
     mode: 0755
     creates: /bin/nebula
+  when: ansible_architecture == "x86_64"
+
+- name: Download release from Github (arm64)
+  unarchive:
+    src: https://github.com/slackhq/nebula/releases/download/v{{ nebula_version }}/nebula-{{ ansible_system|lower }}-arm64.tar.gz
+    dest: /bin
+    remote_src: yes
+    mode: 0755
+    creates: /bin/nebula
+  when: ansible_architecture == "armv64" or ansible_architecture == "aarch64"
+
+- name: Download release from Github (arm7)
+  unarchive:
+    src: https://github.com/slackhq/nebula/releases/download/v{{ nebula_version }}/nebula-{{ ansible_system|lower }}-arm-7.tar.gz
+    dest: /bin
+    remote_src: yes
+    mode: 0755
+    creates: /bin/nebula
+  when: ansible_architecture == "armv7l"
+
+- name: Set correct user and group on the nebula binary
+  ansible.builtin.file:
+    path: /bin/nebula
+    owner: root
+    group: root
+    mode: '0750'
 
 - name: Create configuration directory
   file:
@@ -16,24 +43,26 @@
     mode: '0750'
 
 - name: Deploy configuration template
-  template:
-      dest: /etc/nebula/config.yaml
-      src: templates/config.yaml.j2
-      owner: root
-      group: root
-      mode: 0600
-      backup: yes
+  ansible.builtin.template:
+    src: templates/config.yaml.j2
+    dest: /etc/nebula/config.yaml
+    owner: root
+    group: root
+    mode: '0600'
+  register: nebula_config
+  notify:
+    - Restart_nebula
 
 - name: Deploy systemd template
   template:
-      dest: /etc/systemd/system/nebula.service
-      src: templates/nebula.service.j2
-      owner: root
-      group: root
-      mode: 0644
+    dest: /etc/systemd/system/nebula.service
+    src: templates/nebula.service.j2
+    owner: root
+    group: root
+    mode: 0644
 
 - name: Enable Nebula service
   service:
     name: nebula
-    state: restarted
+    state: started
     enabled: yes
