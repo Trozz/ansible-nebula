@@ -14,7 +14,7 @@ pki:
 static_host_map:
 {% for host in lighthouses %}
 {% if host.nebula_ip is defined and host.external_addr is defined %}
-  "{{ host.nebula_ip }}": ["{{ host.external_addr }}:{{ host.external_addr | default("4242") }}"]
+  "{{ host.nebula_ip }}": ["{{ host.external_addr }}:{{ host.external_port | default("4242") }}"]
 {% endif %}
 {% endfor %}
 

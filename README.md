@@ -13,7 +13,7 @@ Role Variables
 
 | Variable Name | Type | Purpose | Default | Required |
 |---|---|---|---|---|
-| `nebula_version` | String | Version to download | `1.0.0` | Yes |
+| `nebula_version` | String | Version to download | `1.3.0` | Yes |
 | `ca` | String | Path to CA file | NA | Yes |
 | `cert` | String | Path to Certificate | NA | Yes |
 | `key` | String | Path to Certificate Key| NA | Yes |
@@ -101,6 +101,22 @@ Example Playbook
     lighthouses:
       - nebula_ip: 10.255.0.1
         external_addr: 123.231.1.2
+  roles:
+    - ansible-nebula
+```
+
+Optionally you may declare a lighthouse with a non-default external port
+```
+---
+- hosts: all
+  remote_user: root
+  vars:
+  lighthouse:
+    am_lighthouse: yes
+  lighthouses:
+    - nebula_ip: 10.255.0.1
+      external_addr: 123.231.1.2
+      external_port: 4242
   roles:
     - ansible-nebula
 ```
