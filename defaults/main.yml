@@ -1,6 +1,6 @@
 ---
 # defaults file for .
-nebula_version: 1.0.0
+nebula_version: 1.3.0
 
 pki:
   ca: /etc/nebula/ca.crt

@@ -4,7 +4,7 @@
 
 - name: Download release from Github (x86)
   unarchive:
-    src: https://github.com/slackhq/nebula/releases/download/v{{ nebula_version }}/nebula-{{ ansible_system|lower }}-{{ ansible_architecture|lower }}.tar.gz
+    src: https://github.com/slackhq/nebula/releases/download/v{{ nebula_version }}/nebula-{{ ansible_system|lower }}-amd64.tar.gz
     dest: /bin
     remote_src: yes
     mode: 0755
