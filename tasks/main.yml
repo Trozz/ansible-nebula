@@ -1,7 +1,4 @@
 ---
-- name: Get my public IP
-  community.general.ipify_facts:
-
 - name: Download release from Github (x86)
   unarchive:
     src: https://github.com/slackhq/nebula/releases/download/v{{ nebula_version }}/nebula-{{ ansible_system|lower }}-amd64.tar.gz

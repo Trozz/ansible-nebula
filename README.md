@@ -66,10 +66,9 @@ Example Playbook
 - hosts: all
   remote_user: root
   vars:
-    static_host_map:
-      - internal_ip: 10.255.0.1
-        public_ip: 123.231.1.2
-        public_port: 4242
+    lighthouses:
+      - nebula_ip: 10.255.0.1
+        external_addr: 123.231.1.2
     lighthouse:
       nodes:
         - 10.255.0.1
@@ -91,7 +90,7 @@ Example Playbook
         - host.crt
         - host.key
   roles:
-    - trozz.ansible-nebula
+    - ansible-nebula
 ```
 
 ```
@@ -99,13 +98,9 @@ Example Playbook
 - hosts: all
   remote_user: root
   vars:
-    static_host_map:
-      - internal_ip: 10.255.0.1
-        public_ip: 123.231.1.2
-        public_port: 4242
-    lighthouse:
-      nodes:
-        - 10.255.0.1
+    lighthouses:
+      - nebula_ip: 10.255.0.1
+        external_addr: 123.231.1.2
   roles:
     - ansible-nebula
 ```
@@ -119,3 +114,9 @@ Author Information
 ------------------
 
 This role is provided as is, Nebula is maintained by Slack and the community
+
+lighthouse:
+  am_lighthouse: yes
+lighthouses:
+  - nebula_ip: 172.20.10.1
+    external_addr: vpn.sions.org

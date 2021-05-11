@@ -1,8 +1,8 @@
 pki:
   # The CAs that are accepted by this node. Must contain one or more certificates created by 'nebula-cert ca'
-  ca: {{ ca }}
-  cert: {{ cert }}
-  key: {{ key }}
+  ca: {{ pki.ca }}
+  cert: {{ pki.cert }}
+  key: {{ pki.key }}
 {% if blocklist is defined %}
   blocklist:
   {% for hash in blocklist %}
@@ -13,8 +13,8 @@ pki:
 
 static_host_map:
 {% for host in lighthouses %}
-{% if hostvars[host].nebula_ip is defined and listen.port is defined and hostvars[host].external_addr is defined %}
-  "{{ hostvars[host].nebula_ip }}": ["{{ hostvars[host].external_addr }}:{{ listen.port }}"]
+{% if host.nebula_ip is defined and host.external_addr is defined %}
+  "{{ host.nebula_ip }}": ["{{ host.external_addr }}:{{ host.external_addr | default("4242") }}"]
 {% endif %}
 {% endfor %}
 
@@ -23,10 +23,10 @@ lighthouse:
   serve_dns: {{ lighthouse.serve_dns | default("false") }}
   interval: {{ lighthouse.interval | default("60") }}
   hosts:
-{% if not 'lighthouse' in group_names %}
+{% if lighthouse.am_lighthouse is not defined %}
 {% for host in lighthouses %}
-  {% if hostvars[host].nebula_ip is defined %}
-  - "{{ hostvars[host].nebula_ip }}"
+  {% if host.nebula_ip is defined %}
+  - "{{ host.nebula_ip }}"
   {% endif %}
   {% endfor %}
 {% endif %}
