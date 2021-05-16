@@ -3,27 +3,33 @@ pki:
   ca: {{ pki.ca }}
   cert: {{ pki.cert }}
   key: {{ pki.key }}
-{% if pki.blacklist is defined %}
-  blacklist:
-  {% for hash in pki.blacklist %}
+{% if blocklist is defined %}
+  blocklist:
+  {% for hash in blocklist %}
     - "{{ hash }}"
   {% endfor %}
 {% endif %}
 
-static_host_map:
-  {% for host in static_host_map %}
-  "{{ host.internal_ip }}": ["{{ host.public_ip }}:{{ host.public_port }}"]
-  {% endfor %}
 
+static_host_map:
+{% for host in lighthouses %}
+{% if host.nebula_ip is defined and host.external_addr is defined %}
+  "{{ host.nebula_ip }}": ["{{ host.external_addr }}:{{ host.external_port | default("4242") }}"]
+{% endif %}
+{% endfor %}
 
 lighthouse:
   am_lighthouse: {{ lighthouse.am_lighthouse | default("false") }}
   serve_dns: {{ lighthouse.serve_dns | default("false") }}
   interval: {{ lighthouse.interval | default("60") }}
   hosts:
-  {% for host in lighthouse.nodes %}
-    - "{{ host }}"
+{% if lighthouse.am_lighthouse is not defined %}
+{% for host in lighthouses %}
+  {% if host.nebula_ip is defined %}
+  - "{{ host.nebula_ip }}"
+  {% endif %}
   {% endfor %}
+{% endif %}
 
 listen:
   host: {{ listen.host }}

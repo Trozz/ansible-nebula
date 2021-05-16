@@ -13,29 +13,28 @@ Role Variables
 
 | Variable Name | Type | Purpose | Default | Required |
 |---|---|---|---|---|
-| `nebula_version` | String | Version to download | `1.0.0` | Yes |
-| `pki.ca` | String | Path to CA file | NA | Yes |
-| `pki.cert` | String | Path to Certificate | NA | Yes |
-| `pki.key` | String | Path to Certificate Key| NA | Yes |
-| `pki.blacklist` | List | List of Blacklisted certificate hashes | NA | No |
-| `static_host_map` | List | List of static hosts for discovery | NA | Yes |
-| `static_host_map[*].internal_ip` | String | Private IP for discovery | NA | Yes |
-| `static_host_map[*].public_ip` | String | Public IP / Hostname for discovery | NA | Yes |
-| `static_host_map[*].public_port` | String | Public Port for discovery | NA | Yes |
+| `nebula_version` | String | Version to download | `1.3.0` | Yes |
+| `ca` | String | Path to CA file | NA | Yes |
+| `cert` | String | Path to Certificate | NA | Yes |
+| `key` | String | Path to Certificate Key| NA | Yes |
+| `blocklist` | List | List of Blocklisted certificate hashes | NA | No |
+| `lighthouses` | String | Static hosts for discovery | "{{ groups['nebula_lighthouses'] }}" | No |
+| `lighthouses_override` | List | List of static hosts for discovery | NA | No |
 | `lighthouse.am_lighthouse` | Boolean | Is this instance a Lighthouse | `false` | Yes |
 | `lighthouse.serve_dns` | Boolean | Should this instance serve DNS | `false` | Yes |
-| `lighthouse.interval` | List | Lighthouse nodes within the network. | `60` | No |
+| `lighthouse.interval` | Integer | Report interval to lighthouses | `60` | No |
 | `listen.host` | String | IP to listen on | `0.0.0.0` | Yes |
 | `listen.port` | Integer | Port to listen on | `4242` | Yes |
-| `listen.batch` | Integer | Sets the max number of packets to pull from the kernel for each syscall | `64` | Yes | 
+| `listen.batch` | Integer | Sets the max number of packets to pull from the kernel for each syscall | `64` | Yes |
 | `listen.read_buffer` | Integer | Configure socket buffers for the udp side | NA | No |
 | `listen.write_buffer` | Integer | Configure socket buffers for the udp side | NA | No |
 | `punchy` | Boolean | Punchy continues to punch inbound/outbound at a regular interval to avoid expiration of firewall nat mappings | `true` | Yes |
 | `punch_back` | Boolean | punch_back means that a node you are trying to reach will connect back out to you if your hole punching fails | `true` | Yes |
-| `cipher` | String | Cipher allows you to choose between the available ciphers for your network. | NA | No | 
+| `cipher` | String | Cipher allows you to choose between the available ciphers for your network. | NA | No |
 | `local_range` | String | Local range is used to define a hint about the local network range | NA | No |
 | `sshd.enabled` | Boolean | sshd can expose informational and administrative functions via ssh | NA | No |
 | `sshd.listen` | String | IP / Port for admin SSH functions | NA | No |
+| `metrics.prometheus` | Boolean | Enables prometheus server | NA | No |
 | `outbound` | List | Outbound rules for the built in firewall | `See Below` | Yes |
 | `inbound` | List | Inbound rules for the built in firewall | `See Below` | Yes |
 
@@ -67,10 +66,9 @@ Example Playbook
 - hosts: all
   remote_user: root
   vars:
-    static_host_map:
-      - internal_ip: 10.255.0.1
-        public_ip: 123.231.1.2
-        public_port: 4242
+    lighthouses:
+      - nebula_ip: 10.255.0.1
+        external_addr: 123.231.1.2
     lighthouse:
       nodes:
         - 10.255.0.1
@@ -92,7 +90,7 @@ Example Playbook
         - host.crt
         - host.key
   roles:
-    - trozz.ansible-nebula
+    - ansible-nebula
 ```
 
 ```
@@ -100,13 +98,25 @@ Example Playbook
 - hosts: all
   remote_user: root
   vars:
-    static_host_map:
-      - internal_ip: 10.255.0.1
-        public_ip: 123.231.1.2
-        public_port: 4242
-    lighthouse:
-      nodes:
-        - 10.255.0.1
+    lighthouses:
+      - nebula_ip: 10.255.0.1
+        external_addr: 123.231.1.2
+  roles:
+    - ansible-nebula
+```
+
+Optionally you may declare a lighthouse with a non-default external port
+```
+---
+- hosts: all
+  remote_user: root
+  vars:
+  lighthouse:
+    am_lighthouse: yes
+  lighthouses:
+    - nebula_ip: 10.255.0.1
+      external_addr: 123.231.1.2
+      external_port: 4242
   roles:
     - ansible-nebula
 ```
@@ -120,3 +130,9 @@ Author Information
 ------------------
 
 This role is provided as is, Nebula is maintained by Slack and the community
+
+lighthouse:
+  am_lighthouse: yes
+lighthouses:
+  - nebula_ip: 172.20.10.1
+    external_addr: vpn.sions.org

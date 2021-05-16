@@ -1,2 +1,6 @@
 ---
-# handlers file for .
+- name: "Restart_nebula"
+  service:
+    name: nebula
+    state: restarted
+  when: nebula_config.changed
