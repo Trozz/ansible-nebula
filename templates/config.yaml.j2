@@ -25,10 +25,10 @@ lighthouse:
   hosts:
 {% if lighthouse.am_lighthouse is not defined %}
 {% for host in lighthouses %}
-  {% if host.nebula_ip is defined %}
+{% if host.nebula_ip is defined %}
   - "{{ host.nebula_ip }}"
-  {% endif %}
-  {% endfor %}
+{% endif %}
+{% endfor %}
 {% endif %}
 
 listen:
