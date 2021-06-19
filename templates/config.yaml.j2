@@ -124,9 +124,9 @@ firewall:
       {% if rule.host is defined %}host: "{{ rule.host }}"
       {% elif rule.group is defined %}group: "{{ rule.group }}"
       {% elif rule.groups is defined %}groups:
-        {% for group in rule.groups %}
+      {% for group in rule.groups %}
         - {{ group }}
-        {% endfor %}
+      {% endfor %}
       {% elif rule.cidr is defined %}cidr: {{ rule.cidr }}
       {% else %}
       host: any
@@ -141,9 +141,9 @@ firewall:
       {% if rule.host is defined %}host: "{{ rule.host }}"
       {% elif rule.group is defined %}group: "{{ rule.group }}"
       {% elif rule.groups is defined %}groups:
-        {% for group in rule.groups %}
+      {% for group in rule.groups %}
         - {{ group }}
-        {% endfor %}
+      {% endfor %}
       {% elif rule.cidr is defined %}cidr: {{ rule.cidr }}
       {% else %}
       host: any
