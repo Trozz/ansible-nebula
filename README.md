@@ -130,9 +130,3 @@ Author Information
 ------------------
 
 This role is provided as is, Nebula is maintained by Slack and the community
-
-lighthouse:
-  am_lighthouse: yes
-lighthouses:
-  - nebula_ip: 172.20.10.1
-    external_addr: vpn.sions.org
