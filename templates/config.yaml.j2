@@ -76,8 +76,22 @@ tun:
   mtu: 1300
   # Route based MTU overrides, you have known vpn ip paths that can support larger MTUs you can increase/decrease them here
   routes:
+{% if routes is defined %}
+{% for route in routes %}
+    - route: "{{ route.network }}"
+      mtu: {{ route.mtu | default("1300") }}
+{% endfor %}
+{% endif %}
     #- mtu: 8800
     #  route: 10.0.0.0/16
+{% if unsafe_routes is defined %}
+  unsafe_routes:
+{% for unsafe_route in unsafe_routes %}
+    - route: "{{ unsafe_route.network }}"
+      via: "{{ unsafe_route.via }}"
+      mtu: {{ unsafe_route.mtu | default("1300") }}
+{% endfor %}
+{% endif %}
 
 # TODO
 # Configure logging level
@@ -138,14 +152,17 @@ firewall:
 {% for rule in inbound %}
     - port: "{{ rule.port }}"
       proto: "{{ rule.proto }}"
-      {% if rule.host is defined %}host: "{{ rule.host }}"
-      {% elif rule.group is defined %}group: "{{ rule.group }}"
-      {% elif rule.groups is defined %}groups:
-      {% for group in rule.groups %}
+{% if rule.host is defined %}
+      host: "{{ rule.host }}"
+{% elif rule.group is defined %}
+      group: "{{ rule.group }}"
+{% elif rule.groups is defined %}
+      groups:
+{% for group in rule.groups %}
         - {{ group }}
-      {% endfor %}
-      {% elif rule.cidr is defined %}cidr: {{ rule.cidr }}
-      {% else %}
+{% endfor %}
+{% elif rule.cidr is defined %}cidr: {{ rule.cidr }}
+{% else %}
       host: any
-      {% endif %}
+{% endif %}
 {% endfor %}
