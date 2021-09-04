@@ -1,4 +1,13 @@
 ---
+- name: Enable sysctl ip_forwarding
+  when: enable_ip_forward
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    state: present
+  notify:
+    - Restart_nebula
+
 - name: Download release from Github (x86)
   unarchive:
     src: https://github.com/slackhq/nebula/releases/download/v{{ nebula_version }}/nebula-{{ ansible_system|lower }}-amd64.tar.gz

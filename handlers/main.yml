@@ -3,4 +3,3 @@
   service:
     name: nebula
     state: restarted
-  when: nebula_config.changed
