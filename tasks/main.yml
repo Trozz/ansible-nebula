@@ -61,6 +61,7 @@
 
 - name: Verify configuration
   ansible.builtin.command: /bin/nebula -test -config /etc/nebula/config.yaml 1>/dev/null
+  changed_when: false
 
 - name: Deploy systemd template
   template:
