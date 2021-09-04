@@ -50,6 +50,9 @@
   notify:
     - Restart_nebula
 
+- name: Verify configuration
+  ansible.builtin.command: /bin/nebula -test -config /etc/nebula/config.yaml 1>/dev/null
+
 - name: Deploy systemd template
   template:
     dest: /etc/systemd/system/nebula.service
