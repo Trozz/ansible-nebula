@@ -65,15 +65,15 @@ sshd:
 # Configure the private interface. Note: addr is baked into the nebula certificate
 tun:
   # Name of the device
-  dev: nebula1
+  dev: {{ tun.dev_name | default("nebula1") }}
   # Toggles forwarding of local broadcast packets, the address of which depends on the ip/mask encoded in pki.cert
-  drop_local_broadcast: false
+  drop_local_broadcast: {{ tun.drop_local_broadcast | default("false") | lower }}
   # Toggles forwarding of multicast packets
-  drop_multicast: false
+  drop_multicast: {{ tun.drop_multicast | default("false") | lower }}
   # Sets the transmit queue length, if you notice lots of transmit drops on the tun it may help to raise this number. Default is 500
-  tx_queue: 500
+  tx_queue: {{ tun.tx_queue | default("500") }}
   # Default MTU for every packet, safe setting is (and the default) 1300 for internet based traffic
-  mtu: 1300
+  mtu: {{ tun.mtu | default("1300") }}
   # Route based MTU overrides, you have known vpn ip paths that can support larger MTUs you can increase/decrease them here
   routes:
 {% if routes is defined %}
@@ -93,21 +93,22 @@ tun:
 {% endfor %}
 {% endif %}
 
-# TODO
 # Configure logging level
 logging:
   # panic, fatal, error, warning, info, or debug. Default is info
-  level: info
+  level: {{ logging.level | default("info") }}
   # json or text formats currently available. Default is text
-  format: text
+  format: {{ logging.format | default ("text") }}
 
-#stats:
-#  type: prometheus
-#  listen: 127.0.0.1:8080
-#  path: /metrics
-#  namespace: prometheusns
-#  subsystem: nebula
-#  interval: 10s
+{% if stats.enabled %}
+stats:
+  type: {{ stats.type }}
+  listen: {{ stats.listen }}
+  path: {{ stats.path }}
+  namespace: {{ stats.namespace }}
+  subsystem: {{ stats.subsystem }}
+  interval: {{ stats.interval }}
+{% endif%}
 
 # Nebula security group configuration
 firewall:
