@@ -2,6 +2,31 @@
 # defaults file for .
 nebula_version: 1.3.0
 
+# this will cause net.ipv4.ip_forward to be set to 1 to allow unsafe routes
+enable_ip_forward: false
+
+tun:
+  dev_name: nebula1
+  drop_local_broadcast: false
+  drop_multicast: false
+  tx_queue: 500
+  mtu: 1300
+
+logging:
+  # panic, fatal, error, warning, info, or debug. Default is info
+  level: info
+  # json or text formats currently available. Default is text
+  format: text
+
+stats:
+  enabled: false
+  type: prometheus
+  listen: 127.0.0.1:8080
+  path: /metrics
+  namespace: prometheusns
+  subsystem: nebula
+  interval: 10s
+
 pki:
   ca: /etc/nebula/ca.crt
   cert: /etc/nebula/host.crt
