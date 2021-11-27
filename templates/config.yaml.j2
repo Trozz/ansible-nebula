@@ -55,7 +55,7 @@ cipher: {{ cipher }}
 {% endif %}
 
 {% if local_range is defined %}
-local_range: "{{ local_range }}"
+preferred_ranges: "{{ local_range }}"
 {% endif %}
 
 {% if sshd is defined %}
