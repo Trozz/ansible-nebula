@@ -3,7 +3,7 @@
   when: enable_ip_forward
   sysctl:
     name: net.ipv4.ip_forward
-    value: '1'
+    value: "1"
     state: present
   notify:
     - Restart_nebula
@@ -40,13 +40,13 @@
     path: /bin/nebula
     owner: root
     group: root
-    mode: '0750'
+    mode: "0750"
 
 - name: Create configuration directory
   file:
     path: /etc/nebula
     state: directory
-    mode: '0750'
+    mode: "0750"
 
 - name: Deploy configuration template
   ansible.builtin.template:
@@ -54,7 +54,7 @@
     dest: /etc/nebula/config.yaml
     owner: root
     group: root
-    mode: '0600'
+    mode: "0600"
   register: nebula_config
   notify:
     - Restart_nebula
