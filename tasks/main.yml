@@ -11,33 +11,33 @@
 - name: Download release from Github (x86)
   unarchive:
     src: https://github.com/slackhq/nebula/releases/download/v{{ nebula_version }}/nebula-{{ ansible_system|lower }}-amd64.tar.gz
-    dest: /bin
+    dest: "{{ nebula_bin_directory }}"
     remote_src: yes
     mode: 0755
-    creates: /bin/nebula
+    creates: "{{ nebula_bin_directory }}/nebula"
   when: ansible_architecture == "x86_64"
 
 - name: Download release from Github (arm64)
   unarchive:
     src: https://github.com/slackhq/nebula/releases/download/v{{ nebula_version }}/nebula-{{ ansible_system|lower }}-arm64.tar.gz
-    dest: /bin
+    dest: {{ nebula_bin_directory }}
     remote_src: yes
     mode: 0755
-    creates: /bin/nebula
+    creates: "{{ nebula_bin_directory }}/nebula"
   when: ansible_architecture == "armv64" or ansible_architecture == "aarch64"
 
 - name: Download release from Github (arm7)
   unarchive:
     src: https://github.com/slackhq/nebula/releases/download/v{{ nebula_version }}/nebula-{{ ansible_system|lower }}-arm-7.tar.gz
-    dest: /bin
+    dest: {{ nebula_bin_directory }}
     remote_src: yes
     mode: 0755
-    creates: /bin/nebula
+    creates: "{{ nebula_bin_directory }}/nebula"
   when: ansible_architecture == "armv7l"
 
 - name: Set correct user and group on the nebula binary
   ansible.builtin.file:
-    path: /bin/nebula
+    path: "{{ nebula_bin_directory }}/nebula"
     owner: root
     group: root
     mode: '0750'
@@ -60,7 +60,7 @@
     - Restart_nebula
 
 - name: Verify configuration
-  ansible.builtin.command: /bin/nebula -test -config /etc/nebula/config.yaml 1>/dev/null
+  ansible.builtin.command: "{{ nebula_bin_directory }}/nebula -test -config /etc/nebula/config.yaml 1>/dev/null"
   changed_when: false
 
 - name: Deploy systemd template
