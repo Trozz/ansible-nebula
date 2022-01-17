@@ -58,4 +58,4 @@ inbound:
     proto: icmp
     host: any
 
-nebula_bin_location: /bin
+nebula_bin_directory: /bin
