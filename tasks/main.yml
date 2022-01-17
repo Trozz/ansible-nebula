@@ -47,6 +47,13 @@
     group: root
     mode: '0750'
 
+- name: Set correct user and group on the nebula-cert binary
+  ansible.builtin.file:
+    path: "{{ nebula_bin_directory }}/nebula-cert"
+    owner: root
+    group: root
+    mode: '0750'
+
 - name: Create configuration directory
   file:
     path: /etc/nebula
