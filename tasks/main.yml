@@ -8,6 +8,13 @@
   notify:
     - Restart_nebula
 
+- name: Ensure nebula bin directory exists
+  file:
+    path: "{{ nebula_bin_directory }}"
+    state: directory
+    owner: root
+    group: root
+
 - name: Download release from Github (x86)
   unarchive:
     src: https://github.com/slackhq/nebula/releases/download/v{{ nebula_version }}/nebula-{{ ansible_system|lower }}-amd64.tar.gz
