@@ -8,7 +8,7 @@ SyslogIdentifier=nebula
 StandardOutput=syslog
 StandardError=syslog
 ExecReload=/bin/kill -HUP $MAINPID
-ExecStart=/bin/nebula -config /etc/nebula/config.yaml
+ExecStart={{ nebula_bin_directory }}/nebula -config /etc/nebula/config.yaml
 Restart=always
 
 [Install]
