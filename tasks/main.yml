@@ -52,7 +52,7 @@
     path: "{{ nebula_bin_directory }}/nebula-cert"
     owner: root
     group: root
-    mode: "0750"
+    mode: '0750'
 
 - name: Create configuration directory
   file:
