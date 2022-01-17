@@ -12,8 +12,6 @@
   file:
     path: "{{ nebula_bin_directory }}"
     state: directory
-    owner: root
-    group: root
 
 - name: Download release from Github (x86)
   unarchive:
