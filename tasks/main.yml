@@ -20,7 +20,7 @@
 - name: Download release from Github (arm64)
   unarchive:
     src: https://github.com/slackhq/nebula/releases/download/v{{ nebula_version }}/nebula-{{ ansible_system|lower }}-arm64.tar.gz
-    dest: {{ nebula_bin_directory }}
+    dest: "{{ nebula_bin_directory }}"
     remote_src: yes
     mode: 0755
     creates: "{{ nebula_bin_directory }}/nebula"
@@ -29,7 +29,7 @@
 - name: Download release from Github (arm7)
   unarchive:
     src: https://github.com/slackhq/nebula/releases/download/v{{ nebula_version }}/nebula-{{ ansible_system|lower }}-arm-7.tar.gz
-    dest: {{ nebula_bin_directory }}
+    dest: "{{ nebula_bin_directory }}"
     remote_src: yes
     mode: 0755
     creates: "{{ nebula_bin_directory }}/nebula"
