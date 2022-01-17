@@ -51,5 +51,3 @@ inbound:
   - port: any
     proto: icmp
     host: any
-
-nebula_bin_directory: /bin
