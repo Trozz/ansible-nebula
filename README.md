@@ -8,12 +8,18 @@ Requirements
 
 Currently you need to generate and deploy certificates before running this (see example)
 
+Supported Nebula Version
+------------------------
+
+Currently this role is tested against version `1.5.0`
+
 Role Variables
 --------------
 
 | Variable Name | Type | Purpose | Default | Required |
 |---|---|---|---|---|
-| `nebula_version` | String | Version to download | `1.3.0` | Yes |
+| `nebula_version` | String | Version to download | `1.5.0` | Yes |
+| `nebula_force_install` | Boolean | Force overwrite of the existing nebula binary | `false` | No |
 | `ca` | String | Path to CA file | NA | Yes |
 | `cert` | String | Path to Certificate | NA | Yes |
 | `key` | String | Path to Certificate Key| NA | Yes |

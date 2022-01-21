@@ -38,15 +38,24 @@ listen:
   {% if listen.read_buffer is defined %}read_buffer: {{ listen.read_buffer | default("10485760") }}{% endif %}
   {% if listen.write_buffer is defined %}write_buffer: {{ listen.write_buffer | default("10485760") }}{% endif %}
 
-punchy: {{ punchy }}
-punch_back: {{ punch_back }}
+punchy:
+  # Continues to punch inbound/outbound at a regular interval to avoid expiration of firewall nat mappings
+  punch: {{ punchy }}
+
+  # respond means that a node you are trying to reach will connect back out to you if your hole punching fails
+  # this is extremely useful if one node is behind a difficult nat, such as a symmetric NAT
+  # Default is false
+  respond: {{ punch_back | default("false") }}
+
+  # delays a punch response for misbehaving NATs, default is 1 second, respond must be true to take effect
+  #delay: 1s
 
 {% if cipher is defined %}
 cipher: {{ cipher }}
 {% endif %}
 
 {% if local_range is defined %}
-local_range: "{{ local_range }}"
+preferred_ranges: "{{ local_range }}"
 {% endif %}
 
 {% if sshd is defined %}
