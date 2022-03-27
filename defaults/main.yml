@@ -14,6 +14,9 @@ nebula_bin_directory: /bin
 # location of the nebula binaries
 nebula_bin_directory: /bin
 
+# location of the nebula binaries
+nebula_bin_directory: /bin
+
 # this will cause net.ipv4.ip_forward to be set to 1 to allow unsafe routes
 enable_ip_forward: false
 
