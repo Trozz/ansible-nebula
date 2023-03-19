@@ -86,7 +86,7 @@ relay:
   am_relay: {{ relay.am_relay | default("false") }}
   # Set use_relays to false to prevent this instance from attempting to establish connections through relays.
   # default true
-  use_relays: {{ {{ relay.use_relay | default("true") }}
+  use_relays: {{ relay.use_relay | default("true") }}
 {% endif %}
 
 # Configure the private interface. Note: addr is baked into the nebula certificate
