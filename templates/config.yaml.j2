@@ -83,7 +83,6 @@ relay:
     - {{ relay_host }}
     {% endfor %}
   {% endif %}
-
   # Set am_relay to true to permit other hosts to list my IP in their relays config. Default false.
   am_relay: {{ relay.am_relay | default("false") }}
   # Set use_relays to false to prevent this instance from attempting to establish connections through relays.
