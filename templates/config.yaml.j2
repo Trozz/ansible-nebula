@@ -79,7 +79,7 @@ relay:
   # they will reject relay requests.
   relays:
   {% for relay_host in relay.relays %}
-    - {% for relay_host %}
+    - {% relay_host %}
   {% endfor %
 
   # Set am_relay to true to permit other hosts to list my IP in their relays config. Default false.
