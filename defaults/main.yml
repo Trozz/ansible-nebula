@@ -1,6 +1,6 @@
 ---
 # defaults file for .
-nebula_version: 1.5.0
+nebula_version: 1.6.1
 
 # force overwrite
 nebula_force_install: false
