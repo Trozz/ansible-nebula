@@ -80,7 +80,7 @@ relay:
   relays:
   {% for relay_host in relay.relays %}
     - {{ relay_host }}
-  {% endfor %
+  {% endfor %}
 
   # Set am_relay to true to permit other hosts to list my IP in their relays config. Default false.
   am_relay: {{ relay.am_relay | default("false") }}
