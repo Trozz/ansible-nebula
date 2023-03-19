@@ -77,10 +77,12 @@ relay:
   # Relays are a list of Nebula IP's that peers can use to relay packets to me.
   # IPs in this list must have am_relay set to true in their configs, otherwise
   # they will reject relay requests.
+  {% if relay.relays is defined %}
   relays:
-  {% for relay_host in relay.relays %}
+    {% for relay_host in relay.relays %}
     - {{ relay_host }}
-  {% endfor %}
+    {% endfor %}
+  {% endif %}
 
   # Set am_relay to true to permit other hosts to list my IP in their relays config. Default false.
   am_relay: {{ relay.am_relay | default("false") }}
