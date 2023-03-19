@@ -1,6 +1,6 @@
 ---
 # defaults file for .
-nebula_version: 1.5.0
+nebula_version: 1.6.1
 
 # force overwrite
 nebula_force_install: false
@@ -10,6 +10,10 @@ nebula_bin_directory: /bin
 
 # this will cause net.ipv4.ip_forward to be set to 1 to allow unsafe routes
 enable_ip_forward: false
+
+relay:
+  am_relay: "false"
+  use_relays: "true"
 
 tun:
   dev_name: nebula1
