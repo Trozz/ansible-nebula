@@ -19,7 +19,7 @@
     dest: "{{ nebula_bin_directory }}"
     remote_src: yes
     mode: 0755
-    creates: "{{ nebula_bin_directory }}/nebula"
+    creates: "{{ (nebula_bin_directory + '/nebula') if nebula_force_install == false else '' }}"
   when: ansible_architecture == "x86_64"
 
 - name: Download release from Github (arm64)
@@ -28,7 +28,7 @@
     dest: "{{ nebula_bin_directory }}"
     remote_src: yes
     mode: 0755
-    creates: "{{ nebula_bin_directory }}/nebula"
+    creates: "{{ (nebula_bin_directory + '/nebula') if nebula_force_install == false else '' }}"
   when: ansible_architecture == "armv64" or ansible_architecture == "aarch64"
 
 - name: Download release from Github (arm7)
@@ -37,7 +37,7 @@
     dest: "{{ nebula_bin_directory }}"
     remote_src: yes
     mode: 0755
-    creates: "{{ nebula_bin_directory }}/nebula"
+    creates: "{{ (nebula_bin_directory + '/nebula') if nebula_force_install == false else '' }}"
   when: ansible_architecture == "armv7l"
 
 - name: Set correct user and group on the nebula binary
