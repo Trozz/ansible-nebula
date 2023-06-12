@@ -71,6 +71,25 @@ sshd:
         #- "ssh public key string"
 {% endif %}
 
+{% if relay is defined %}
+# EXPERIMENTAL: relay support for networks that can't establish direct connections.
+relay:
+  # Relays are a list of Nebula IP's that peers can use to relay packets to me.
+  # IPs in this list must have am_relay set to true in their configs, otherwise
+  # they will reject relay requests.
+{% if relay.relays is defined %}
+  relays:
+{% for relay_host in relay.relays %}
+    - {{ relay_host }}
+{% endfor %}
+{% endif %}
+  # Set am_relay to true to permit other hosts to list my IP in their relays config. Default false.
+  am_relay: {{ relay.am_relay | default("false") }}
+  # Set use_relays to false to prevent this instance from attempting to establish connections through relays.
+  # default true
+  use_relays: {{ relay.use_relay | default("true") }}
+{% endif %}
+
 # Configure the private interface. Note: addr is baked into the nebula certificate
 tun:
   # Name of the device

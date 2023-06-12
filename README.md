@@ -40,6 +40,9 @@ Role Variables
 | `local_range` | String | Local range is used to define a hint about the local network range | NA | No |
 | `sshd.enabled` | Boolean | sshd can expose informational and administrative functions via ssh | NA | No |
 | `sshd.listen` | String | IP / Port for admin SSH functions | NA | No |
+| `relay.relays` | List | IP of hosts to use as a relay | NA | No |
+| `relay.am_relay` | String | Indicate whether host should act as a relay  | `false` | No |
+| `relay.use_relays` | String | Indicate whether host should attempt to connect through relays | `true` | No |
 | `metrics.prometheus` | Boolean | Enables prometheus server | NA | No |
 | `outbound` | List | Outbound rules for the built in firewall | `See Below` | Yes |
 | `inbound` | List | Inbound rules for the built in firewall | `See Below` | Yes |
