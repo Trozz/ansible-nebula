@@ -1,3 +1,4 @@
+# {{ ansible_managed }}
 pki:
   # The CAs that are accepted by this node. Must contain one or more certificates created by 'nebula-cert ca'
   ca: {{ pki.ca }}
@@ -164,16 +165,20 @@ firewall:
 {% for rule in outbound %}
     - port: "{{ rule.port }}"
       proto: "{{ rule.proto }}"
-      {% if rule.host is defined %}host: "{{ rule.host }}"
-      {% elif rule.group is defined %}group: "{{ rule.group }}"
-      {% elif rule.groups is defined %}groups:
-      {% for group in rule.groups %}
+{% if rule.host is defined %}
+      host: "{{ rule.host }}"
+{% elif rule.group is defined %}
+      group: "{{ rule.group }}"
+{% elif rule.groups is defined %}
+      groups:
+{% for group in rule.groups %}
         - {{ group }}
-      {% endfor %}
-      {% elif rule.cidr is defined %}cidr: {{ rule.cidr }}
-      {% else %}
+{% endfor %}
+{% elif rule.cidr is defined %}
+      cidr: {{ rule.cidr }}
+{% else %}
       host: any
-      {% endif %}
+{% endif %}
 {% endfor %}
 
 
@@ -190,7 +195,8 @@ firewall:
 {% for group in rule.groups %}
         - {{ group }}
 {% endfor %}
-{% elif rule.cidr is defined %}cidr: {{ rule.cidr }}
+{% elif rule.cidr is defined %}
+      cidr: {{ rule.cidr }}
 {% else %}
       host: any
 {% endif %}
